@@ -37,6 +37,7 @@ function scale() {
     (minimap.offsetWidth/2 + computed('marginRight'))*(scaleFactor - 1)
     + (minimap.scrollWidth > outerWidth
       && (minimap.scrollWidth - outerWidth)*scaleFactor)
+    + 2
     + 'px';
 
   youarehere.style.width = innerWidth * scaleFactor + "px";
