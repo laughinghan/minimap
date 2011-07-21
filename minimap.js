@@ -3,10 +3,11 @@ var minimap = document.body.cloneNode(true);
 minimap.style.position = 'fixed';
 minimap.style.zIndex = 65534;
 minimap.style.webkitUserSelect = 'none';
+minimap.style.width = getComputedStyle(document.body).width;
 [].forEach.call(minimap.getElementsByTagName('a'), function(link) {
   link.href = 'javascript:;';
 });
-document.body.appendChild(minimap);
+document.documentElement.appendChild(minimap);
 
 var youarehere = document.createElement('div');
 youarehere.style.position = 'fixed';
@@ -14,7 +15,7 @@ youarehere.style.zIndex = 65535;
 youarehere.style.webkitUserSelect = 'none';
 youarehere.style.right = 0;
 youarehere.style.border = 'solid black 2px';
-document.body.appendChild(youarehere);
+document.documentElement.appendChild(youarehere);
 
 scale();
 window.addEventListener('resize', scale);
@@ -44,10 +45,10 @@ minimap.addEventListener('mousedown', mousedown);
 youarehere.addEventListener('mousedown', mousedown);
 function mousedown(e) {
   scrollTo(e);
-  document.body.addEventListener('mousemove', scrollTo);
-  document.body.addEventListener('mouseup', function(){
-    document.body.removeEventListener('mousemove', scrollTo);
-    document.body.removeEventListener('mouseup', arguments.callee);
+  document.addEventListener('mousemove', scrollTo);
+  document.addEventListener('mouseup', function(){
+    document.removeEventListener('mousemove', scrollTo);
+    document.removeEventListener('mouseup', arguments.callee);
   });
 }
 function scrollTo(e) {
