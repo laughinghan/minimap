@@ -1,3 +1,3 @@
-Bookmarklet to make a minimap of any web page you're on!
+Instant Minimap of any web page, as a bookmarklet
 
 by [Han](http://github.com/laughinghan) and [Erik](http://github.com/erikkrasner)
