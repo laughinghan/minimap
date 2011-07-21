@@ -21,4 +21,4 @@ function scale(factor) {
   minimap.style.webkitTransform = 'scale('+factor+')';
   minimap.style.top = minimap.offsetHeight*-.45+'px';
   minimap.style.right = minimap.offsetWidth*-.45+'px';
-};
+}
