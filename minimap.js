@@ -21,8 +21,8 @@ scale();
 window.addEventListener('resize', scale);
 var scaleFactor;
 function scale() {
-  if (minimap.offsetHeight > 10*innerHeight) {
-    scaleFactor = innerHeight/minimap.offsetHeight;
+  if (minimap.scrollHeight > 10*innerHeight) {
+    scaleFactor = innerHeight/minimap.scrollHeight;
   }
   else {
     scaleFactor = .1;
