@@ -28,11 +28,24 @@ function scale() {
     scaleFactor = .1;
   }
   minimap.style.webkitTransform = 'scale('+scaleFactor+')';
-  minimap.style.top = minimap.offsetHeight*(scaleFactor/2 - .5) + 'px';
-  minimap.style.right = minimap.offsetWidth*(scaleFactor*2 - .5) + 'px';
+  minimap.style.top =
+    (minimap.offsetHeight/2 + computed('marginTop'))*(scaleFactor - 1)
+    + 2
+    + 'px';
+  var outerWidth = minimap.offsetWidth + computed('marginLeft')
+    + computed('marginRight');
+  minimap.style.right =
+    (minimap.offsetWidth/2 + computed('marginRight'))*(scaleFactor - 1)
+    + (minimap.scrollWidth > outerWidth
+      && (minimap.scrollWidth - outerWidth)*scaleFactor)
+    + 2
+    + 'px';
 
   youarehere.style.width = innerWidth * scaleFactor + "px";
   youarehere.style.height = innerHeight * scaleFactor + "px";
+}
+function computed(style) {
+  return parseInt(getComputedStyle(minimap)[style]);
 }
 
 youAreNowHere();
