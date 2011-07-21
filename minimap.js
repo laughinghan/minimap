@@ -1,4 +1,4 @@
-javascript:
+javascript:(function() {
 var minimap = document.body.cloneNode(true);
 minimap.style.position = 'fixed';
 minimap.style.zIndex = 65534;
@@ -66,3 +66,4 @@ function mousedown(e) {
 function scrollTo(e) {
   document.body.scrollTop = e.clientY/scaleFactor-innerHeight/2;
 }
+}())
