@@ -5,7 +5,10 @@ var minimap = document.body.cloneNode(true);
 });
 minimap.style.position = 'fixed';
 document.body.appendChild(minimap);
-scale(.1);
+if (minimap.offsetHeight > 10*innerHeight)
+  scale(innerHeight/minimap.offsetHeight);
+else
+  scale(.1);
 minimap.onmousedown = function(e) {
   document.body.scrollTop = 10*e.clientY-innerHeight/2;
   document.onmousemove = arguments.callee;
