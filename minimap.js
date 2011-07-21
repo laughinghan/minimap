@@ -30,7 +30,6 @@ function scale() {
   minimap.style.WebkitTransform = 'scale('+scaleFactor+')';
   minimap.style.top =
     (minimap.offsetHeight/2 + computed('marginTop'))*(scaleFactor - 1)
-    + 2
     + 'px';
   var outerWidth = minimap.offsetWidth + computed('marginLeft')
     + computed('marginRight');
@@ -38,7 +37,6 @@ function scale() {
     (minimap.offsetWidth/2 + computed('marginRight'))*(scaleFactor - 1)
     + (minimap.scrollWidth > outerWidth
       && (minimap.scrollWidth - outerWidth)*scaleFactor)
-    + 2
     + 'px';
 
   youarehere.style.width = innerWidth * scaleFactor + "px";
@@ -51,7 +49,7 @@ function computed(style) {
 youAreNowHere();
 window.addEventListener('scroll',youAreNowHere);
 function youAreNowHere() {
-  youarehere.style.top = document.body.scrollTop * scaleFactor + "px";
+  youarehere.style.top = document.body.scrollTop*scaleFactor - 2 + "px";
 }
 
 minimap.addEventListener('mousedown', mousedown);
