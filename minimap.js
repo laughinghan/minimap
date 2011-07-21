@@ -2,7 +2,7 @@ javascript:
 var minimap = document.body.cloneNode(true);
 minimap.style.position = 'fixed';
 minimap.style.zIndex = 65534;
-minimap.style.webkitUserSelect = 'none';
+minimap.style.WebkitUserSelect = 'none';
 minimap.style.width = getComputedStyle(document.body).width;
 [].forEach.call(minimap.getElementsByTagName('a'), function(link) {
   link.href = 'javascript:;';
@@ -12,7 +12,7 @@ document.documentElement.appendChild(minimap);
 var youarehere = document.createElement('div');
 youarehere.style.position = 'fixed';
 youarehere.style.zIndex = 65535;
-youarehere.style.webkitUserSelect = 'none';
+youarehere.style.WebkitUserSelect = 'none';
 youarehere.style.right = 0;
 youarehere.style.border = 'solid black 2px';
 document.documentElement.appendChild(youarehere);
@@ -27,7 +27,7 @@ function scale() {
   else {
     scaleFactor = .1;
   }
-  minimap.style.webkitTransform = 'scale('+scaleFactor+')';
+  minimap.style.WebkitTransform = 'scale('+scaleFactor+')';
   minimap.style.top =
     (minimap.offsetHeight/2 + computed('marginTop'))*(scaleFactor - 1)
     + 2
