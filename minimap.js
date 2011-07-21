@@ -26,7 +26,7 @@ function scale(factor) {
   minimap.style.right = minimap.offsetWidth*factor+'px';
 }
 function youAreNowHere() {
-  youarehere.style.top = document.body.scrollTop / scaleFactor + "px";
+  youarehere.style.top = document.body.scrollTop * scaleFactor + "px";
 }
 var youarehere = document.createElement('div');
 youarehere.style.position = 'fixed';
