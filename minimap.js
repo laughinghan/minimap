@@ -5,21 +5,35 @@ var minimap = document.body.cloneNode(true), scaleFactor;
 });
 minimap.style.position = 'fixed';
 document.body.appendChild(minimap);
+var scaleFactor;
 if (minimap.offsetHeight > 10*innerHeight) {
-  scaleFactor = innerHeight/minimap.offsetHeight;
+  scale(innerHeight/minimap.offsetHeight);
 }
 else {
-  scaleFactor = .1;
+  scale(.1);
 }
-scale();
 minimap.onmousedown = function(e) {
   document.body.scrollTop = e.clientY/scaleFactor-innerHeight/2;
   document.onmousemove = arguments.callee;
   document.onmouseup = function(){ document.onmousemove = null; };
   return false;
 };
-function scale() {
-  minimap.style.webkitTransform = 'scale('+scaleFactor+')';
-  minimap.style.top = minimap.offsetHeight*(scaleFactor/2 - .5)+'px';
-  minimap.style.right = minimap.offsetWidth*(scaleFactor/2 - .5)+'px';
+function scale(factor) {
+  scaleFactor = factor;
+  minimap.style.webkitTransform = 'scale('+factor+')';
+  factor = factor/2 - .5;
+  minimap.style.top = minimap.offsetHeight*factor+'px';
+  minimap.style.right = minimap.offsetWidth*factor+'px';
 }
+function youAreNowHere() {
+  youarehere.style.top = document.body.scrollTop / scaleFactor + "px";
+}
+var youarehere = document.createElement('div');
+youarehere.style.position = 'fixed';
+youarehere.style.right = 0;
+youarehere.style.width = innerWidth * scaleFactor + "px";
+youarehere.style.height = innerHeight * scaleFactor + "px";
+youarehere.style.border = 'solid black 2px';
+youAreNowHere();
+document.body.appendChild(youarehere);
+window.addEventListener('scroll',youAreNowHere);
