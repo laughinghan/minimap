@@ -24,19 +24,16 @@ get '/proxy' do
   end
   doc = Nokogiri::HTML(open(address))
   elements = doc.css('*')
+  def absolutify(element, attribute, address)
+    at = element[attribute]
+    if at != nil && at[0] == '/'
+      element[attribute] = address + at
+    end
+  end
   elements.each do |element|
-    href = element['href']
-    if href != nil && href[0] == '/'
-      element['href'] = address + href
-      # for url()s within external stylesheets.
-      if element['type'] == 'text/css'
-        element['href'] = '/proxy/' + URI.escape(element['href'])
-      end
-    end
-    src = element['src']
-    if src != nil && src[0] == '/'
-      element['src'] = address + src
-    end
+    absolutify(element,'href',address)
+    absolutify(element,'src',address)
+    absolutify(element,'action',address)
   end
   p doc.to_s
   doc.to_s.gsub('url(/', 'url(' + address + '/')
