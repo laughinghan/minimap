@@ -69,7 +69,7 @@ $('button').click(function() {
 
 $('input').bind('keydown keypress', function(e) {
 	if (e.keyCode == 13) {
-		window.location += '?' + $(this).val();
+		window.location += '?' + escape($(this).val());
 	}
 })
 </script>
