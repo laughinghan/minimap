@@ -106,7 +106,7 @@ var scaleFactor, iframeDoc, iframeBody, iframe = $('iframe').load(function() {
 
   $(iframeWin).scroll(youAreNowHere).scroll();
 
-  minimapDiv.css({
+  minimapDiv.empty().css({
     width: iframeDoc.width,
     WebkitTransform: 'scale('+scaleFactor+')',
     WebkitTransformOrigin: 'top right'
