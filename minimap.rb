@@ -17,5 +17,5 @@ get '/dev' do
 end
 
 get '/proxy' do
-  open(request.query_string)
+  open(URI.unescape(request.query_string))
 end

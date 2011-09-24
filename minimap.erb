@@ -69,7 +69,14 @@ $('button').click(function() {
 
 $('input').bind('keydown keypress', function(e) {
 	if (e.keyCode == 13) {
-		window.location += '?' + escape($(this).val());
+		url = $(this).val();
+		if (url.slice(0,7) != "http://") {
+			url = "http://" + url;
+		}
+		if (url.indexOf('.') == -1) {
+			url += '.com';
+		}
+		window.location += '?' + escape(url);
 	}
 })
 </script>
