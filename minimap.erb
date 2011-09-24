@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<title>Minimap For Any Web Page!</title>
+
+<style type="text/css">
+body {
+  max-width: 6.5in;
+  margin: 0 auto;
+  font-family: Verdana, sans-serif;
+}
+h1 {
+  font-size: 2em;
+  margin: .2em;
+  float: left;
+  text-shadow: #7851A9 0 0 .2em;
+}
+</style>
+
+</head>
+<body>
+
+<h1>Minimap For Any Web Page!</h1>
+
+<p><button>Click Me for a Minimap!</button>
+
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery<%= ".min" unless @dev %>.js"></script>
+<script type="text/javascript">
+<% if @dev %>
+window.onerror = function() {
+  $('html').css('background', 'red');
+};
+<% end %>
+
+$('button').click(function() {
+  alert('Instead of alerting, this is going to make a minimap!');
+});
+</script>
+
+</body>
+</html>
