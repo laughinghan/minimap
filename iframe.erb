@@ -22,5 +22,17 @@ iframe {
 
 <iframe src="proxy?<%= @url %>"></iframe> 
 
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery<%= ".min" unless @dev %>.js"></script>
+<script type="text/javascript">
+<% if @dev %>
+window.onerror = function() {
+  $('html').css('background', 'red');
+};
+<% end %>
+
+var doc = document, body = doc.body;
+var iframe = $('iframe').load(function() {
+});
+</script>
 </body>
 </html>
