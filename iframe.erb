@@ -117,7 +117,13 @@ var scaleFactor, iframeDoc, iframeBody, iframe = $('iframe').load(function() {
   overlayDiv.css('width',minimapDiv.css('width'));
   
   .append(iframeDoc.documentElement.cloneNode(true));
+
+  //Live Sync of minimap with iframe
+  iframeDoc.addEventListener('DOMSubtreeModified', reMini);
 });
+function reMini() {
+  minimapDiv.empty().append(iframeDoc.documentElement.cloneNode(true));
+}
 
 //You Are Here
 var youarehere = $('<div id="youarehere"></div>').insertAfter(minimapDiv);
