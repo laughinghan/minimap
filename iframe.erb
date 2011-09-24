@@ -27,10 +27,13 @@ div {
 	height:100%;
 	right:0;
 }
-p {
+p, input {
 	margin:0;
+	display:none;
 	position:absolute;
 	top:20px;
+}
+p {
 	right:20px;
 	color:#000;	
 	font-weight:bold;
@@ -41,6 +44,10 @@ p:hover {
 	margin:-4px;
 	font-size:24px;
 }
+input {
+	width:6em;
+	right:45px;
+}
 </style>
 
 </head>
@@ -49,6 +56,7 @@ p:hover {
 <iframe src="proxy?<%= @url %>"></iframe> 
 
 <div>
+	<input placeholder = "New URL?">
 	<p>&times;
 </div>
 
@@ -71,8 +79,21 @@ $('p').click(function() {
 	window.location = url;
 });
 $('div').hover(function() {
+	$('input').toggle();
 	$('p').toggle();
 });
+$('input').focus(function() {
+	$(this).css('width','12em');
+})
+$('input').blur(function() {
+	$(this).css('width','6em');
+})
+$('input').bind('keydown keypress', function(e) {
+	if (e.keyCode == 13) {
+		var url = $(this).val();
+		window.location = window.location.pathname + "?" + escape(url);
+	}
+})
 </script>
 </body>
 </html>
