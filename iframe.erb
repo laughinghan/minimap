@@ -23,12 +23,15 @@ iframe {
   right: 2px;
 }
 #youarehere {
-  z-index: 65535;
-  border: solid black 2px;
-  -webkit-user-select: none;
   position: absolute;
+  top: 0;
+  right: 9%;
+  color: purple;
+}
+#youarehere.box {
   top: -2px;
-  right: 0;
+  right: 0px;
+  border: solid 2px black;
 }
 #toolbar p, #toolbar input {
 	margin: 0;
@@ -60,10 +63,10 @@ iframe {
 
 <div id="minimap"></div>
 
-<div id="toolbar">
+<!--div id="toolbar">
 	<input placeholder="New URL?" />
 	<p>&times;</p>
-</div>
+</div-->
 
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery<%= ".min" unless @dev %>.js"></script>
 <script type="text/javascript">
@@ -76,44 +79,82 @@ window.onerror = function() {
 var doc = document, body = doc.body;
 
 //minimap
-var scaleFactor = .1;
 var minimapDiv = $('#minimap');
-var iframe = $('iframe').load(function() {
+var scaleFactor, iframeDoc, iframeBody, iframe = $('iframe').load(function() {
   iframeDoc = iframe.contents()[0];
   document.title = iframeDoc.title;
+  iframeBody = iframeDoc.body;
+
+  var iframeWin = iframe[0].contentWindow;
+  if (iframeBody.scrollHeight < 10*innerHeight) {
+    scaleFactor = .095;
+    youarehere.addClass('box');
+    youarehere.css({
+      height: iframeWin.innerHeight*scaleFactor + 'px',
+      width: iframeWin.innerWidth*scaleFactor + 'px'
+    });
+  }
+  else {
+    scaleFactor = innerHeight/iframeBody.scrollHeight;
+    youarehere.css({
+      right: iframeWin.innerWidth*scaleFactor + 'px'
+    });
+    youarehere.html('<span>&#9654;</span>').children().css({
+      lineHeight: iframeWin.innerHeight*scaleFactor + 'px'
+    });
+  }
+
+  $(iframeWin).scroll(youAreNowHere).scroll();
 
   minimapDiv.css({
     width: iframeDoc.width,
     WebkitTransform: 'scale('+scaleFactor+')',
     WebkitTransformOrigin: 'top right'
   })
-  .prepend(iframeDoc.documentElement.cloneNode(true));
-
-  iframeWin = iframe[0].contentWindow;
-  youarehere.css({
-    height: iframeWin.innerHeight*scaleFactor + 'px',
-    width: iframeWin.innerWidth*scaleFactor + 'px'
-  });
-
-  $(iframeWin).scroll(youAreNowHere);
+  .append(iframeDoc.documentElement.cloneNode(true));
 });
 
 //You Are Here
-var youarehere = $('<div id="youarehere"/>').insertAfter(minimapDiv);
-youAreNowHere();
+var youarehere = $('<div id="youarehere"></div>').insertAfter(minimapDiv);
 function youAreNowHere() {
-  youarehere.css('top', iframeDoc.body.scrollTop*scaleFactor - 2 + 'px');
+  youarehere.css('top', iframeBody.scrollTop*scaleFactor - 2 + 'px');
 }
 
+//Mouse Events
+minimap.addEventListener('mousedown', mousedown);
+function mousedown(e) {
+  scrollTo(e);
+  doc.addEventListener('mousemove', scrollTo);
+  doc.addEventListener('mouseup', function(){
+    doc.removeEventListener('mousemove', scrollTo);
+    doc.removeEventListener('mouseup', arguments.callee);
+  });
+}
+function scrollTo(e) {
+  iframeBody.scrollTop = e.clientY/scaleFactor-innerHeight/2;
+}
+youarehere.mousedown(function(e) {
+  var startY = e.clientY, startScrollTop = iframeBody.scrollTop;
+  doc.addEventListener('mousemove', dragTo);
+  doc.addEventListener('mouseup', function(){
+    doc.removeEventListener('mousemove', dragTo);
+    doc.removeEventListener('mouseup', arguments.callee);
+  });
+  function dragTo(e) {
+    iframeBody.scrollTop = startScrollTop + (e.clientY - startY)/scaleFactor;
+  }
+});
+doc.addEventListener('selectstart', function(){ return false; });
+
 //toolbar
-$('p').click(function() {
+/*$('p').click(function() {
 	var url = unescape(window.location.search.substring(1));
 	if (url.substring(0,7) != 'http://') {
 		url = "http://" + url;
 	}
 	window.location = url;
 });
-$('#toolbar').hover(function() {
+$('#minimap').hover(function() {
 	$('input').toggle();
 	$('p').toggle();
 });
@@ -128,7 +169,7 @@ $('input').bind('keydown keypress', function(e) {
 		var url = $(this).val();
 		window.location = window.location.pathname + "?" + escape(url);
 	}
-});
+});*/
 </script>
 </body>
 </html>
