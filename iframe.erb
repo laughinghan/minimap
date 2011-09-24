@@ -20,6 +20,14 @@ iframe {
   height: 100%;
   position: absolute;
   top: 0;
+  right: 2px;
+}
+#youarehere {
+  z-index: 65535;
+  border: solid black 2px;
+  -webkit-user-select: none;
+  position: absolute;
+  top: -2px;
   right: 0;
 }
 #toolbar p, #toolbar input {
@@ -65,19 +73,37 @@ window.onerror = function() {
 };
 <% end %>
 
+var doc = document, body = doc.body;
+
 //minimap
+var scaleFactor = .1;
 var minimapDiv = $('#minimap');
 var iframe = $('iframe').load(function() {
-  scaleFactor = .1;
   iframeDoc = iframe.contents()[0];
   document.title = iframeDoc.title;
+
   minimapDiv.css({
     width: iframeDoc.width,
     WebkitTransform: 'scale('+scaleFactor+')',
     WebkitTransformOrigin: 'top right'
   })
   .prepend(iframeDoc.documentElement.cloneNode(true));
+
+  iframeWin = iframe[0].contentWindow;
+  youarehere.css({
+    height: iframeWin.innerHeight*scaleFactor + 'px',
+    width: iframeWin.innerWidth*scaleFactor + 'px'
+  });
+
+  $(iframeWin).scroll(youAreNowHere);
 });
+
+//You Are Here
+var youarehere = $('<div id="youarehere"/>').insertAfter(minimapDiv);
+youAreNowHere();
+function youAreNowHere() {
+  youarehere.css('top', iframeDoc.body.scrollTop*scaleFactor - 2 + 'px');
+}
 
 //toolbar
 $('p').click(function() {
