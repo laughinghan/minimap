@@ -77,15 +77,15 @@ iframe {
 <script type="text/javascript">
 <% if @dev %>
 window.onerror = function() {
-  $('html').css('background', 'red');
+  jQuery('html').css('background', 'red');
 };
 <% end %>
 
 var doc = document, body = doc.body;
 
 //minimap
-var minimapDiv = $('#minimap');
-var scaleFactor, iframeDoc, iframeBody, iframe = $('iframe').load(function() {
+var minimapDiv = jQuery('#minimap');
+var scaleFactor, iframeDoc, iframeBody, iframe = jQuery('iframe').load(function() {
   iframeDoc = iframe.contents()[0];
   document.title = iframeDoc.title;
   iframeBody = iframeDoc.body;
@@ -111,9 +111,9 @@ var scaleFactor, iframeDoc, iframeBody, iframe = $('iframe').load(function() {
     });
   }
 
-  $(iframeWin).scroll(youAreNowHere).scroll();
+  jQuery(iframeWin).scroll(youAreNowHere).scroll();
 
-  overlay = $('#overlay').css({
+  overlay = jQuery('#overlay').css({
     width: iframeWin.innerWidth*scaleFactor + 'px'
   });
 
@@ -126,7 +126,7 @@ var scaleFactor, iframeDoc, iframeBody, iframe = $('iframe').load(function() {
 });
 
 //You Are Here
-var youarehere = $('<div id="youarehere"></div>').insertAfter(overlay);
+var youarehere = jQuery('<div id="youarehere"></div>').insertAfter(overlay);
 function youAreNowHere() {
   youarehere.css('top', iframeBody.scrollTop*scaleFactor - 2 + 'px');
 }
@@ -158,26 +158,26 @@ youarehere.mousedown(function(e) {
 doc.addEventListener('selectstart', function(){ return false; });
 
 //toolbar
-/*$('p').click(function() {
+/*jQuery('p').click(function() {
 	var url = unescape(window.location.search.substring(1));
 	if (url.substring(0,7) != 'http://') {
 		url = "http://" + url;
 	}
 	window.location = url;
 });
-$('#minimap').hover(function() {
-	$('input').toggle();
-	$('p').toggle();
+jQuery('#minimap').hover(function() {
+	jQuery('input').toggle();
+	jQuery('p').toggle();
 });
-$('input').focus(function() {
-	$(this).css('width','12em');
+jQuery('input').focus(function() {
+	jQuery(this).css('width','12em');
 });
-$('input').blur(function() {
-	$(this).css('width','6em');
+jQuery('input').blur(function() {
+	jQuery(this).css('width','6em');
 });
-$('input').bind('keydown keypress', function(e) {
+jQuery('input').bind('keydown keypress', function(e) {
 	if (e.keyCode == 13) {
-		var url = $(this).val();
+		var url = jQuery(this).val();
 		window.location = window.location.pathname + "?" + escape(url);
 	}
 });*/
