@@ -35,5 +35,10 @@ get '/proxy' do
     absolutify(element,'src',address)
     absolutify(element,'action',address)
   end
+  doc.css('a').each do |link|
+    if link['href'] != nil
+      link['href'] = '/proxy?' + URI.escape(link['href'])
+    end
+  end
   doc.to_s.gsub('url(/', 'url(' + address + '/')
 end
