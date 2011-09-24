@@ -16,7 +16,7 @@ iframe {
   width: 90.909%;
   border: none;
 }
-#minimap, #toolbar {
+#minimap, #toolbar, #overlay {
   height: 100%;
   position: absolute;
   top: 0;
@@ -33,24 +33,24 @@ iframe {
   right: 0px;
   border: solid 2px black;
 }
-#toolbar p, #toolbar input {
+p, input {
 	margin: 0;
 	display: none;
 	position: absolute;
 	top: 20px;
 }
-#toolbar p {
+p {
 	right: 20px;
 	color: #000;	
 	font-weight: bold;
 	font-size: 16px;
 	display: none;
 }
-#toolbar p:hover {
+p:hover {
 	margin: -4px;
 	font-size: 24px;
 }
-#toolbar input {
+input {
 	width: 6em;
 	right: 45px;
 }
@@ -61,12 +61,13 @@ iframe {
 
 <iframe src="proxy?<%= @url %>"></iframe> 
 
-<div id="minimap"></div>
+<div id="minimap">
 
-<!--div id="toolbar">
+</div>
+<div id="overlay">
 	<input placeholder="New URL?" />
 	<p>&times;</p>
-</div-->
+</div>
 
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery<%= ".min" unless @dev %>.js"></script>
 <script type="text/javascript">
@@ -80,6 +81,7 @@ var doc = document, body = doc.body;
 
 //minimap
 var minimapDiv = $('#minimap');
+var overlayDiv = $('#overlay');
 var scaleFactor, iframeDoc, iframeBody, iframe = $('iframe').load(function() {
   iframeDoc = iframe.contents()[0];
   document.title = iframeDoc.title;
@@ -111,6 +113,9 @@ var scaleFactor, iframeDoc, iframeBody, iframe = $('iframe').load(function() {
     WebkitTransform: 'scale('+scaleFactor+')',
     WebkitTransformOrigin: 'top right'
   })
+
+  overlayDiv.css('width',minimapDiv.css('width'));
+  
   .append(iframeDoc.documentElement.cloneNode(true));
 });
 
@@ -147,7 +152,7 @@ youarehere.mousedown(function(e) {
 doc.addEventListener('selectstart', function(){ return false; });
 
 //toolbar
-/*$('p').click(function() {
+$('p').click(function() {
 	var url = unescape(window.location.search.substring(1));
 	if (url.substring(0,7) != 'http://') {
 		url = "http://" + url;
@@ -169,7 +174,7 @@ $('input').bind('keydown keypress', function(e) {
 		var url = $(this).val();
 		window.location = window.location.pathname + "?" + escape(url);
 	}
-});*/
+});
 </script>
 </body>
 </html>
