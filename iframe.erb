@@ -93,15 +93,14 @@ var scaleFactor, iframeDoc, iframeBody, iframe = $('iframe').load(function() {
   var iframeWin = iframe[0].contentWindow;
   if (iframeBody.scrollHeight < 10*innerHeight) {
     scaleFactor = .1;
-    youarehere.addClass('box');
-    youarehere.css({
+    youarehere.addClass('box').css({
       height: iframeWin.innerHeight*scaleFactor + 'px',
       width: iframeWin.innerWidth*scaleFactor + 'px'
     });
   }
   else {
     scaleFactor = innerHeight/iframeBody.scrollHeight - .001;
-    youarehere.css({
+    youarehere.removeClass('box').css({
       right: iframeWin.innerWidth*scaleFactor + 'px'
     });
     youarehere.html('<span>&#9654;</span>').children().css({
