@@ -12,8 +12,14 @@ body {
 iframe {
   display: block;
   height: 100%;
-  width: 90%;
+  width: 90.909%;
   border: none;
+}
+#minimap {
+  height: 100%;
+  position: absolute;
+  top: 0;
+  right: 0;
 }
 </style>
 
@@ -21,6 +27,8 @@ iframe {
 <body>
 
 <iframe src="proxy?<%= @url %>"></iframe> 
+
+<div id="minimap"></div>
 
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery<%= ".min" unless @dev %>.js"></script>
 <script type="text/javascript">
@@ -30,8 +38,16 @@ window.onerror = function() {
 };
 <% end %>
 
-var doc = document, body = doc.body;
+var minimapDiv = $('#minimap');
 var iframe = $('iframe').load(function() {
+  scaleFactor = .1;
+  iframeDoc = iframe.contents()[0];
+  minimapDiv.css({
+    width: iframeDoc.width,
+    WebkitTransform: 'scale('+scaleFactor+')',
+    WebkitTransformOrigin: 'top right'
+  })
+  .append(iframeDoc.documentElement.cloneNode(true));
 });
 </script>
 </body>
