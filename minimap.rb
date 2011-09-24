@@ -24,7 +24,7 @@ end
 
 get_or_post '/proxy' do
   address = URI.unescape(request.query_string)
-  if address[0..6] != 'http://'
+  if !URI.parse(address).absolute?
     address = 'http://' + address
   end
   base_address = address.split('/')[0..2].join('/')
