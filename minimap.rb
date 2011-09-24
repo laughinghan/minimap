@@ -5,10 +5,12 @@ require 'erubis'
 set :views, File.dirname(__FILE__)
 
 get '/' do
-  erb :minimap
+  @url = request.query_string
+  erb @url.empty? ? :minimap : :iframe
 end
 
 get '/dev' do
   @dev = true
-  erb :minimap
+  @url = request.query_string
+  erb @url.empty? ? :minimap : :iframe
 end
