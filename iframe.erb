@@ -16,11 +16,14 @@ iframe {
   width: 90.909%;
   border: none;
 }
-#minimap, #toolbar {
+#minimap, #toolbar, #overlay {
   height: 100%;
   position: absolute;
   top: 0;
   right: 2px;
+}
+#overlay {
+  right: 0;
 }
 #youarehere {
   position: absolute;
@@ -62,6 +65,8 @@ iframe {
 <iframe src="proxy?<%= @url %>"></iframe> 
 
 <div id="minimap"></div>
+
+<div id="overlay"></div>
 
 <!--div id="toolbar">
 	<input placeholder="New URL?" />
@@ -106,6 +111,10 @@ var scaleFactor, iframeDoc, iframeBody, iframe = $('iframe').load(function() {
 
   $(iframeWin).scroll(youAreNowHere).scroll();
 
+  overlay = $('#overlay').css({
+    width: iframeWin.innerWidth*scaleFactor + 'px'
+  });
+
   minimapDiv.empty().css({
     width: iframeDoc.width,
     WebkitTransform: 'scale('+scaleFactor+')',
@@ -115,13 +124,13 @@ var scaleFactor, iframeDoc, iframeBody, iframe = $('iframe').load(function() {
 });
 
 //You Are Here
-var youarehere = $('<div id="youarehere"></div>').insertAfter(minimapDiv);
+var youarehere = $('<div id="youarehere"></div>').insertAfter(overlay);
 function youAreNowHere() {
   youarehere.css('top', iframeBody.scrollTop*scaleFactor - 2 + 'px');
 }
 
 //Mouse Events
-minimap.addEventListener('mousedown', mousedown);
+overlay.addEventListener('mousedown', mousedown);
 function mousedown(e) {
   scrollTo(e);
   doc.addEventListener('mousemove', scrollTo);
