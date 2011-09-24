@@ -28,6 +28,10 @@ get '/proxy' do
     href = element['href']
     if href != nil && href[0] == '/'
       element['href'] = address + href
+      # for url()s within external stylesheets.
+      if element['type'] == 'text/css'
+        element['href'] = '/proxy/' + URI.escape(element['href'])
+      end
     end
     src = element['src']
     if src != nil && src[0] == '/'
@@ -35,4 +39,5 @@ get '/proxy' do
     end
   end
   p doc.to_s
+  doc.to_s.gsub('url(/', 'url(' + address + '/')
 end
