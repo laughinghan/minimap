@@ -17,5 +17,9 @@ get '/dev' do
 end
 
 get '/proxy' do
-  open(URI.unescape(request.query_string))
+  address = URI.unescape(request.query_string)
+  if address[0..6] != 'http://'
+    address = 'http://' + address
+  end
+  open(address)
 end
