@@ -2,8 +2,6 @@
 <html>
 <head>
 
-<title>iframe proxy</title>
-
 <style type="text/css">
 body {
   height: 100%;
@@ -72,6 +70,7 @@ var minimapDiv = $('#minimap');
 var iframe = $('iframe').load(function() {
   scaleFactor = .1;
   iframeDoc = iframe.contents()[0];
+  document.title = iframeDoc.title;
   minimapDiv.css({
     width: iframeDoc.width,
     WebkitTransform: 'scale('+scaleFactor+')',
