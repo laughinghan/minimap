@@ -7,13 +7,39 @@
 <style type="text/css">
 body {
   height: 100%;
+  width: 100%;
+  font-family:'Helvetica',sans-serif;
+  padding: 0;
   margin: 0;
   overflow: hidden;
 }
 iframe {
+  position:absolute;
+  left:0;
+  display: block;
   height: 100%;
   width: 90%;
   border: none;
+}
+div {
+	position:absolute;
+	width:15%;
+	height:100%;
+	right:0;
+}
+p {
+	margin:0;
+	position:absolute;
+	top:20px;
+	right:20px;
+	color:#000;	
+	font-weight:bold;
+	font-size:16px;
+	display:none;
+}
+p:hover {
+	margin:-4px;
+	font-size:24px;
 }
 </style>
 
@@ -21,6 +47,10 @@ iframe {
 <body>
 
 <iframe src="proxy?<%= @url %>"></iframe> 
+
+<div>
+	<p>&times;
+</div>
 
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery<%= ".min" unless @dev %>.js"></script>
 <script type="text/javascript">
@@ -32,6 +62,16 @@ window.onerror = function() {
 
 var doc = document, body = doc.body;
 var iframe = $('iframe').load(function() {
+});
+$('p').click(function() {
+	var url = unescape(window.location.search.substring(1));
+	if (url.substring(0,7) != 'http://') {
+		url = "http://" + url;
+	}
+	window.location = url;
+});
+$('div').hover(function() {
+	$('p').toggle();
 });
 </script>
 </body>
