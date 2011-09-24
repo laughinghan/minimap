@@ -7,6 +7,9 @@
 <style type="text/css">
 body {
   height: 100%;
+  width: 100%;
+  font-family:'Helvetica',sans-serif;
+  padding: 0;
   margin: 0;
 }
 iframe {
@@ -15,11 +18,32 @@ iframe {
   width: 90.909%;
   border: none;
 }
-#minimap {
+#minimap, #toolbar {
   height: 100%;
   position: absolute;
   top: 0;
   right: 0;
+}
+#toolbar p, #toolbar input {
+	margin: 0;
+	display: none;
+	position: absolute;
+	top: 20px;
+}
+#toolbar p {
+	right: 20px;
+	color: #000;	
+	font-weight: bold;
+	font-size: 16px;
+	display: none;
+}
+#toolbar p:hover {
+	margin: -4px;
+	font-size: 24px;
+}
+#toolbar input {
+	width: 6em;
+	right: 45px;
 }
 </style>
 
@@ -30,6 +54,11 @@ iframe {
 
 <div id="minimap"></div>
 
+<div id="toolbar">
+	<input placeholder="New URL?" />
+	<p>&times;</p>
+</div>
+
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery<%= ".min" unless @dev %>.js"></script>
 <script type="text/javascript">
 <% if @dev %>
@@ -38,6 +67,7 @@ window.onerror = function() {
 };
 <% end %>
 
+//minimap
 var minimapDiv = $('#minimap');
 var iframe = $('iframe').load(function() {
   scaleFactor = .1;
@@ -47,7 +77,32 @@ var iframe = $('iframe').load(function() {
     WebkitTransform: 'scale('+scaleFactor+')',
     WebkitTransformOrigin: 'top right'
   })
-  .append(iframeDoc.documentElement.cloneNode(true));
+  .prepend(iframeDoc.documentElement.cloneNode(true));
+});
+
+//toolbar
+$('p').click(function() {
+	var url = unescape(window.location.search.substring(1));
+	if (url.substring(0,7) != 'http://') {
+		url = "http://" + url;
+	}
+	window.location = url;
+});
+$('#toolbar').hover(function() {
+	$('input').toggle();
+	$('p').toggle();
+});
+$('input').focus(function() {
+	$(this).css('width','12em');
+});
+$('input').blur(function() {
+	$(this).css('width','6em');
+});
+$('input').bind('keydown keypress', function(e) {
+	if (e.keyCode == 13) {
+		var url = $(this).val();
+		window.location = window.location.pathname + "?" + escape(url);
+	}
 });
 </script>
 </body>
